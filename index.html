@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL Downloader</title>
+  <script type="module">
+    // Get a reference to the URL form
+    const urlForm = document.getElementById("urlForm");
+
+    // Add a submit event listener to the form
+    urlForm.addEventListener("submit", async (e) => {
+      e.preventDefault(); // Prevent form submission
+
+      // Get the URL input value
+      const urlInput = document.getElementById("urlInput");
+      const url = urlInput.value;
+
+      // Send the URL to the server
+      try {
+        const response = await fetch("/download", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ url }),
+        });
+        const data = await response.text();
+        console.log(data); // Log the response from the server
+      } catch (error) {
+        console.error(error); // Log any errors
+      }
+    });
+  </script>
+</head>
+<body>
+  <h1>URL Downloader</h1>
+  <form id="urlForm">
+    <label for="urlInput">Enter URL:</label>
+    <input type="text" id="urlInput" name="url" required>
+    <button type="submit">Download</button>
+  </form>
+</body>
+</html>
+
